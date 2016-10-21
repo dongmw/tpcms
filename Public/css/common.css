@@ -1,0 +1,131 @@
+h1 {
+    color: rgba(255, 255, 255, .8);
+}
+
+body {
+    background: url("../images/background.jpg") no-repeat center right fixed;
+    background-size: cover;
+
+    padding-top: 70px;
+}
+
+body:after {
+    content: "";
+    display: block;
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    background: url("../images/bg_111.png") no-repeat;
+    background-size: cover;
+    width: 185px;
+    height: 185px;
+}
+
+.navbar-default {
+    background: none;
+    border-bottom: none;
+}
+
+.nav_bg {
+    background-color: rgba(255, 255, 255, .8);
+    border-bottom: 1px solid #e7e7e7;
+    border-radius: 4px;
+}
+
+.dropdown-menu {
+    background-color: rgba(255, 255, 255, .8);
+}
+
+.panel {
+    background-color: rgba(255, 255, 255, .8);
+}
+
+.panel-default > .panel-heading {
+    background: none;
+}
+
+.panel-footer {
+    background: none;
+    text-align: right;
+}
+
+.page-header {
+    margin-top: 0px;
+    margin-bottom: 10px;
+    border-bottom: none;
+}
+
+.list-group-item {
+    background-color: rgba(250, 242, 204, .8);
+}
+
+a {
+    color: #08c;
+}
+
+a:hover, a:focus {
+    color: #337ab7;
+}
+
+.table-hover > tbody > tr:hover {
+    background-color: rgba(252, 248, 227, .4);
+}
+
+.dropdown-menu > li > a:hover, .dropdown-menu > li > a:focus {
+    background-color: rgba(252, 248, 227, .4);
+}
+
+.highlight {
+    margin-top: 15px;
+    background: #F5F5F5;
+    border-radius: 8px;
+    padding: 5px 10px;
+}
+
+.highlight pre {
+    margin-top: 9px;
+}
+
+.cate_fm {
+    color: #08c;
+}
+
+.topic-editor {
+    border-top-left-radius: 0;
+}
+
+.nav-tabs {
+    border-bottom: none;
+}
+
+#preview {
+    min-height: 500px;
+    overflow-y: scroll;
+}
+
+.sr-only {
+    display: none;
+}
+
+.markdown {
+    position: relative;
+    line-height: 1.8em;
+    font-size: 14px;
+    text-overflow: ellipsis;
+    word-wrap: break-word;
+    background-color: rgba(255, 255, 255, .8);
+    border-radius: 4px;
+    border-top-left-radius: 0;
+    padding: 6px;
+    color: #555;
+    margin-bottom: 15px;
+}
+
+.markdown img {
+    max-width: 100%;
+}
+
+.badge {
+    background: #dff0d8;
+    color: #555;
+}
