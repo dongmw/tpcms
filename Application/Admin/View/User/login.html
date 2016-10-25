@@ -8,6 +8,7 @@
 
     <link href="__PUBLIC__/bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <style>
+
         .code {
             cursor: pointer;
         }
@@ -70,12 +71,13 @@
 <script src="__PUBLIC__/bootstrap/js/bootstrap.min.js"></script>
 <script>
     $(function () {
+        //网页刷新一次获取一个新的验证码
         var set_code = function(){
             var src = "/Admin/User/verify/?"+Math.random();
             $(".code").attr('src', src);
         }
         set_code();
-
+        //点击一下获取一个新的验证码
         $(".code").click(function () {
             set_code();
         })
