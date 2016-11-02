@@ -1,0 +1,236 @@
+<extend name="./Application/Admin/View/Layout/application.html"/>
+
+<block name="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-10">
+
+                <div class="page-header">
+                    <h1>栏目管理
+                        <small>Categories manage</small>
+                    </h1>
+                </div>
+                <div class="row">
+                    <div class="col-md-10">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">栏目列表</div>
+
+                            <div class="panel-body">
+                                <form action="" method="post" id="form">
+                                    <table class="table">
+
+                                        <thead>
+                                        <tr>
+
+                                            <th>名 称</th>
+                                            <th>栏目文章</th>
+                                            <th>排 序</th>
+                                            <th>操 作</th>
+                                        </tr>
+                                        </thead>
+
+                                        <tbody>
+                                        <volist name="categories" id="category">
+                                            <tr data-id="{{$category.id}}">
+                                                <td class="name">{{$category.name}}</td>
+                                                <td>
+                                                    <input type="hidden" name="parent_id" class="">
+                                                </td>
+
+                                                <td>
+                                                    <input type="hidden" value="{{$category.id}}" name="id[]">
+                                                    <input type="text" value="{{$category.sort_order}}" name="sort_order[]">
+                                                </td>
+                                                <td>
+                                                    <a data-toggle="modal" class="edit" data-target="#edit_link">
+                                                        <span class="glyphicon glyphicon-pencil"></span>
+                                                    </a>
+                                                    <a data-toggle="modal" class="destroy" data-target="#destory_link">
+                                                        <span class="glyphicon glyphicon-trash"></span>
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                            <volist name="category.children" id="c">
+                                                <tr data-id="{{$c.id}}">
+                                                    <td class="name">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{$c.name}}</td>
+                                                    <td>
+                                                        <input type="hidden" name="parent_id" class="">
+                                                    </td>
+
+                                                    <td>
+                                                        <input type="hidden" value="{{$c.id}}" name="id[]">
+                                                        <input type="text" value="{{$c.sort_order}}" name="sort_order[]">
+                                                    </td>
+                                                    <td>
+                                                        <a href="{{:U('Category/edit', array('id'=>$c['id']))}}">
+                                                            <span class="glyphicon glyphicon-pencil"></span>
+                                                        </a>
+                                                        <a data-toggle="modal" class="destroy" data-target="#destory_link">
+                                                            <span class="glyphicon glyphicon-trash"></span>
+                                                        </a>
+                                                    </td>
+                                                </tr>
+                                            </volist>
+                                        </volist>
+                                        </tbody>
+                                    </table>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+
+                        <div class="list-group">
+                            <a href="{{:U('create')}}" class="list-group-item list-group-item-success" >
+                                <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> 新增 (add)
+                            </a>
+                            <a href="javascript: void 0;" class="list-group-item list-group-item-info sort_flinks">
+                                <span class="glyphicon glyphicon-refresh" aria-hidden="true"></span> 排序 (sort)
+                            </a>
+                            <a href="javascript: void 0;"
+                               class="list-group-item list-group-item-warning del_all_flinks">
+                                <span class="glyphicon glyphicon-remove" aria-hidden="true"></span> 刪除 (delete)
+                            </a>
+                        </div>
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--&lt;!&ndash; Button trigger modal &ndash;&gt;-->
+    <!--<button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">-->
+    <!--Launch demo modal-->
+    <!--</button>-->
+
+    <!-- Modal新增链接 -->
+    <div class="modal fade" id="create_link" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"><span
+                            aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                    <h4 class="modal-title" id="myModalLabel">添加友情链接</h4>
+                </div>
+                <form class="form-horizontal" role="form" action="{{:U('store')}}" method="post">
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label for="create_name" class="col-sm-2 control-label">链接名称</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" name="name" id="create_name" placeholder="链接名称">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="create_name" class="col-sm-2 control-label">链接地址</label>
+                            <div class="col-sm-10">
+                                <input type="url" class="form-control" name="url" id="create_url" placeholder="链接地址">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                        <button type="submit" class="btn btn-primary">保存</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal编辑链接 -->
+    <!--<div class="modal fade" id="edit_link" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"-->
+         <!--aria-hidden="true">-->
+        <!--<div class="modal-dialog">-->
+            <!--<div class="modal-content">-->
+                <!--<div class="modal-header">-->
+                    <!--<button type="button" class="close" data-dismiss="modal"><span-->
+                            <!--aria-hidden="true">×</span><span class="sr-only">Close</span></button>-->
+                    <!--<h4 class="modal-title" id="">编辑友情链接</h4>-->
+                <!--</div>-->
+                <!--<form class="form-horizontal" role="form" action="{{:U('update')}}" method="post">-->
+                    <!--<input type="hidden" name="id" id="edit_id">-->
+                    <!--<div class="modal-body">-->
+                        <!--<div class="form-group">-->
+                            <!--<label for="create_name" class="col-sm-2 control-label">链接名称</label>-->
+                            <!--<div class="col-sm-10">-->
+                                <!--<input type="text" class="form-control" name="name" id="edit_name" placeholder="链接名称">-->
+                            <!--</div>-->
+                        <!--</div>-->
+                        <!--<div class="form-group">-->
+                            <!--<label for="create_name" class="col-sm-2 control-label">链接地址</label>-->
+                            <!--<div class="col-sm-10">-->
+                                <!--<input type="url" class="form-control" name="url" id="edit_url" placeholder="链接地址">-->
+                            <!--</div>-->
+                        <!--</div>-->
+                    <!--</div>-->
+                    <!--<div class="modal-footer">-->
+                        <!--<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>-->
+                        <!--<button type="submit" class="btn btn-primary">保存</button>-->
+                    <!--</div>-->
+                <!--</form>-->
+            <!--</div>-->
+        <!--</div>-->
+    <!--</div>-->
+
+    <!-- Modal删除链接 -->
+    <div class="modal fade" id="destory_link" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"><span
+                            aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                    <h4 class="modal-title">删除栏目</h4>
+                </div>
+                <form class="form-horizontal" role="form" action="{{:U('destroy')}}" method="post">
+                    <input type="hidden" name="id" id="destroy_id">
+                    <div class="modal-body">
+                        <p>确认删除这个栏目？</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                        <button type="submit" class="btn btn-primary">确认</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</block>
+
+
+<block name="js">
+    <script>
+        $(function () {
+            //编辑单条链接
+            $(".edit").click(function () {
+                var data = {
+                    id: $(this).parents("tr").data('id'),
+                    name: $(this).parent().siblings('.name').text(),
+                    url: $.trim($(this).parent().siblings('.url').text())
+                }
+
+                $("#edit_id").val(data.id);
+                $("#edit_name").val(data.name);
+                $("#edit_url").val(data.url);
+            })
+            //删除单条链接
+            $(".destroy").click(function () {
+                var data = {
+                    id: $(this).parents("tr").data('id')
+                }
+                $("#destroy_id").val(data.id);
+
+            })
+
+
+            //排序
+            $(".sort_flinks").click(function () {
+                $("#form").attr("action", "{{:U('sort_order')}}").submit();
+
+            })
+        })
+    </script>
+</block>
+
