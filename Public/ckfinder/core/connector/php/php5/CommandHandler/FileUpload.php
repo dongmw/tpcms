@@ -27,6 +27,7 @@ if (!defined('IN_CKFINDER')) exit;
  */
 class CKFinder_Connector_CommandHandler_FileUpload extends CKFinder_Connector_CommandHandler_CommandHandlerBase
 {
+
     /**
      * Command name
      *

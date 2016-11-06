@@ -38,12 +38,12 @@
                                         <div class="form-group">
                                             <label for="inputEmail3" class="col-sm-2 control-label">所属栏目</label>
                                             <div class="col-sm-8">
-                                                <select class="form-control" name="category_id">
+                                                <select class="select form-control" name="category_id" id="select">
                                                     <volist name="categories" id="category">
-                                                        <option value="{{$category.id}}">{{$category.name}}</option>
+                                                        <option data-type="no_add" value="{{$category.id}}">{{$category.name}} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[&nbsp;封面&nbsp;]</option>
                                                         <volist name="category.children" id="c">
                                                             <option value="{{$c.id}}">
-                                                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{$c.name}}
+                                                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{$c.name}}
                                                             </option>
                                                         </volist>
                                                     </volist>
@@ -53,7 +53,7 @@
                                         <div class="form-group">
                                             <label for="inputEmail3" class="col-sm-2 control-label">文章标题</label>
                                             <div class="col-sm-6">
-                                                <input type="text" name="title" class="form-control" id="inputEmail3"
+                                                <input type="text" name="title" class="title form-control" id="inputEmail3"
                                                        placeholder="请输入标题">
                                             </div>
                                         </div>
@@ -70,33 +70,46 @@
                                         <div class="form-group">
                                             <label for="inputEmail3" class="col-sm-2 control-label">发布日期</label>
                                             <div class="col-sm-6">
-                                                <input type="text" name="time" data-data-format="yyyy-mm-dd"
-                                                       value="2016-10-31" class="form-control datepicker"
-                                                       placeholder="">
+
+                                                <input type="text" name="time" data-date-format="yyyy-mm-dd"
+                                                       value="{{$data['startTime']|default=NOW_TIME|date='Y-m-d',###}}" class="form-control datepicker"
+                                                       placeholder=""/>
                                             </div>
                                         </div>
 
                                         <div class="form-group thumb">
                                             <label for="inputEmail3" class="col-sm-2 control-label">缩略图</label>
-                                            <div class="col-sm-6">
+                                            <div class="col-sm-4">
                                                 <input type="text" id="thumb" class="form-control span5" name="thumb">
-                                                <input type="button" value="上 传" onclick="BrowseServer('thumb1','img_show1')" class="btn btn-success"/>
-                                                <input type="button" value="删 除" class="thumb_del1 btn btn-danger">
+                                            </div>
+                                            <div class="col-sm-2">
+                                                <input type="button" value="上 传"
+                                                       onclick="BrowseServer('thumb','img_show')"
+                                                       class="btn btn-success"/>
+                                                <input type="button" value="删 除" class="thumb_delete btn btn-danger">
+                                            </div>
+                                            <div class="col-sm-2">
                                                 <img src="" id="img_show" width="60px" height="30px">
                                             </div>
                                         </div>
                                         <div class="form-group">
                                             <label for="inputEmail3" class="col-sm-2 control-label">新增附件</label>
                                             <div class="col-sm-3">
-                                                <button class="btn btn-primary add_file">新增</button>
+                                                <button type="button" class="btn btn-primary add_file">新增</button>
                                             </div>
                                         </div>
-                                        <div class="form-group file">
-                                            <label for="inputEmail3" class="col-sm-2 control-label">附件(1)</label>
-                                            <div class="col-sm-6">
-                                                <input type="text" id="file1" class="form-control span5" name="file[]">
-                                                <input type="button" value="上 传" onclick="BrowseServer('file1')" class="btn btn-success"/>
-                                                <input type="button" value="删 除" class="thumb_del1 btn btn-danger">
+                                        <div class="files">
+                                            <div class="form-group">
+                                                <label for="inputEmail3" class="col-sm-2 control-label">附件(1)</label>
+                                                <div class="col-sm-4">
+                                                    <input type="text" id="file1" class="form-control span5"
+                                                           name="file[]">
+                                                </div>
+                                                <div class="col-sm-2">
+                                                    <input type="button" value="上 传" onclick="BrowseServer('file1')"
+                                                           class="btn btn-success">
+                                                    <input type="button" value="删 除" class="thumb_del1 btn btn-danger">
+                                                </div>
                                             </div>
                                         </div>
 
@@ -110,10 +123,10 @@
                                             <label for="inputEmail3" class="col-sm-2 control-label">是否置顶</label>
                                             <div class="col-sm-10">
                                                 <label class="radio-inline">
-                                                    <input type="radio" name="is_show" value="1"> 是
+                                                    <input type="radio" name="type" value="1"> 是
                                                 </label>
                                                 <label class="radio-inline">
-                                                    <input type="radio" name="is_show" value="0"> 否
+                                                    <input type="radio" name="type" value="0"> 否
                                                 </label>
 
                                             </div>
@@ -129,7 +142,7 @@
                                         </div>
                                         <div class="form-group">
                                             <div class="col-sm-offset-2 col-sm-10">
-                                                <button type="submit" class="btn btn-primary">提交</button>
+                                                <button type="submit" class="submit btn btn-primary">提交</button>
                                                 <a href="{{:U('index')}}" class="btn btn-info">返回</a>
                                             </div>
                                         </div>
@@ -178,9 +191,51 @@
 
         //日期插件
         $('.datepicker').datepicker({
-            language: 'zh-CN'
+            language: 'zh-CN',
+            autoclose: true,//选中之后自动隐藏日期选择框
+            format: "yyyy-mm-dd"//日期格式
         });
-        //添加图片插件
+
+
+        //新增附件
+        var index = 1;
+        $(".add_file").click(function () {
+            var length = $(".files").children().length;
+            if (length==5){
+                alert('您最多只能增加5个附件');
+                return false;
+            }
+            index++;
+            var html = '<div class="form-group">'+
+                    '<label for="inputEmail3" class="col-sm-2 control-label">附件('+ index +')</label>'+
+                    '<div class="col-sm-4">'+
+                    '<input type="text" id="file'+ index +'" class="form-control span5" name="file[]">'+
+                    '</div>'+
+                    '<div class="col-sm-2">'+
+                    '<input type="button" value="上 传" onclick="BrowseServer(\'file'+ index +'\')" class="btn btn-success"/>&nbsp;'+
+                    '<input type="button" value="删 除" class="file_del btn btn-danger">'+
+                    '</div>'+
+                    '</div>';
+            $(".files").append(html);
+            //移除整个框
+            $(".file_del").click(function () {
+                $(this).parent().parent().remove();
+            })
+
+        })
+        //添加附件
+        function BrowseServer(file) {
+            var finder = new CKFinder();
+
+            //当选中图片时执行的函数
+            finder.selectActionFunction = function (fileUrl) {
+                $("#" + file).val(fileUrl);
+
+            }
+
+            finder.popup();//调用窗口
+        }
+        //添加缩略图
         function BrowseServer(thumb, img_show) {
             var finder = new CKFinder();
 
@@ -192,59 +247,42 @@
 
             finder.popup();//调用窗口
         }
-        //增加附件
-        $(".add_file").click(function(){
-            var i=$('.file').size()
+        //删除链接、缩略图
+        $(".thumb_delete").click(function () {
+            $("#thumb").val('');
+            $("#img_show").attr('src', '');
+        })
+        //删除链接
+        $(".thumb_del1").click(function () {
+            $("#file1").val('');
+        })
 
-//                    <div class="form-group file">
-//                    <label for="inputEmail3" class="col-sm-2 control-label">附件(1)</label>
-//                    <div class="col-sm-6">
-//                    <input type="text" id="file1" class="form-control span5" name="file[]">
-//                    <input type="button" value="上 传" onclick="BrowseServer('file1')" class="btn btn-success"/>
-//                    <input type="button" value="删 除" class="thumb_del1 btn btn-danger">
-//                    </div>
-//                    </div>
+        $(".submit").click(function(){
+            var title = $(".title");
 
-            var n = i+1;
-            var html = '<div class="form-group file">'+
-                    '<label for="inputEmail3" class="col-sm-2 control-label">附件('+n+'):</label>'+
-                    '<div class="col-sm-6">'+
-                    '<input type="text" id="file'+n+'" class=" form-control span5" name="file[]"/>&nbsp;'+
-                    "<input type='button'  value='上 传' onclick=BrowseServer('file"+n+"') class='btn btn-success' />&nbsp;"+
-                    '<input type="button"  value="删 除" class="file_del btn btn-danger" />&nbsp;'+
-                    '</div>'+
-                    '</div>';
-
-            if(n < 6) {
-                $(".file:last").after(html);
-            } else {
-                alert("您最多只能添加5个附件！");
+            if(title.val() == '') {
+                alert("标题不能为空！");
+                title.focus();
                 return false;
             }
-            $(this).blur();  //失去焦点
-            return false;   //不跳转
+//        if(CKEDITOR.instances.editor1.getData() == '') {
+//            alert("内容不能为空！");
+//            content.focus();
+//            return false;
+//        }
+            var type = $("#select").find("option:selected").attr('data-type');
+//            dump(type);
+//            exit;
+            if (type == 'no_add') {
+                alert("您所选择的栏目是封面栏目，不能添加文章！");
+                return false;
+            }
+        })
 
-            //删除缩略图输入框
-            $(".file_del").on('click',function(){
-                $(this).parents().remove();
-            });
 
-            $(".file_del").click(function(){
-                $("#file1").val('');
-            });
 
-//            $(function(){
-//                //$(document).on...
-//                $(document).on("click","p",function(){
-//                    $(this).css("background-color","pink");
-//                });
-//
-//                $("button").click(function(){
-//                    $("p").off("click");
-//                });
-//            });
 
-        });
+
     </script>
 </block>
 

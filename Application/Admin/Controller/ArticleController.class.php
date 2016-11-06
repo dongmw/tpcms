@@ -13,7 +13,7 @@ class ArticleController extends CommonController
     public function index()
     {
         $Article=D('Article');
-        $articles=$Article->relation(true)->select();
+        $articles=$Article->relation(true)->where('status=1')->select();
         $this->assign('articles', $articles);
         $this->display();
 //        dump($articles);
@@ -22,6 +22,7 @@ class ArticleController extends CommonController
 
     public function create()
     {
+
         $categories = $this->category->all();
 //        dd($categories);
         $this->assign('categories', $categories);
@@ -32,11 +33,21 @@ class ArticleController extends CommonController
     }
     public function store()
     {
-//        dump($_POST);
-//        exit();
-        $this->article->create();
-        $this->article->add();
-        $this->redirect('index');
+        //自动完成
+        //implode explode
+
+        $Article = D('Article');
+
+//        if (!$Article->create()){
+//            // 如果创建失败 表示验证没有通过 输出错误提示信息
+//            //exit($Article->getError());
+//            $this->success($Article->getError(),U('create'));
+//        }else{
+            // 验证通过 可以进行其他数据操作
+            $Article->create();
+            $Article->add();
+            $this->redirect('index');
+        //}
     }
     public function edit()
     {
@@ -49,6 +60,10 @@ class ArticleController extends CommonController
 
         $article=$this->article->where("id='$id'")->find();
         $this->assign('article',$article);
+        //拆分字符串
+        $file = explode('|', $article['file']);
+        $this->assign('file', $file);
+
         $this->display();
     }
     public function update()
@@ -63,7 +78,20 @@ class ArticleController extends CommonController
     public function destroy()
     {
         $id=I("post.id");
-        $this->article->delete($id);
+        $this->article->where("id='$id'")->setField("status",0);
+        //$this->link->where("id='$v'")->setField("sort_order", $sort_order[$k]);
         $this->redirect('index');
+    }
+    public function destroy_checked()
+    {
+//        dump($_POST);
+//        exit()
+
+        $checked = I("post.destroy_checked");
+        foreach ($checked as $id){
+            $this->article->where("id='$id'")->setField("status",0);
+        }
+        $this->success("批量删除成功");
+
     }
 }

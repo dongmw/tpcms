@@ -31,7 +31,7 @@
 
                                         <tbody>
                                         <volist name="categories" id="category">
-                                            <tr data-id="{{$category.id}}">
+                                            <tr class="column" data-id="{{$category.id}}">
                                                 <td class="name">{{$category.name}}</td>
                                                 <td>
                                                     <input type="hidden" name="parent_id" class="">
@@ -46,7 +46,7 @@
                                                         <span class="glyphicon glyphicon-pencil"></span>
                                                     </a>
                                                     <a data-toggle="modal" class="destroy" data-target="#destory_link">
-                                                        <span class="glyphicon glyphicon-trash"></span>
+                                                        <span class="del glyphicon glyphicon-trash"></span>
                                                     </a>
                                                 </td>
                                             </tr>
@@ -65,7 +65,7 @@
                                                         <a href="{{:U('Category/edit', array('id'=>$c['id']))}}">
                                                             <span class="glyphicon glyphicon-pencil"></span>
                                                         </a>
-                                                        <a data-toggle="modal" class="destroy" data-target="#destory_link">
+                                                        <a data-toggle="modal" name="articles" id="destroy" class="destroy" data-target="#destory_link">
                                                             <span class="glyphicon glyphicon-trash"></span>
                                                         </a>
                                                     </td>
@@ -230,6 +230,25 @@
                 $("#form").attr("action", "{{:U('sort_order')}}").submit();
 
             })
+            //删除主栏目判断
+            $(".del").click(function () {
+                var length = $(".column").children().length;
+                if (length != 0){
+                    alert('请先删除子栏目，才可以删除主栏目！');
+                }
+                return false;
+
+            })
+            //删除子栏目判断
+            $("#destroy").click(function () {
+                if ($articles){
+                    alert('请先删除该栏目的文章,才可以删除该栏目!');
+                }
+                return false;
+
+            })
+
+
         })
     </script>
 </block>
