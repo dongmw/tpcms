@@ -28,14 +28,4 @@ class ArticleModel extends RelationModel
     }
 
 
-
-
-//    function all()
-//    {
-//        if (!F('articles')){
-//            $articles = $this->relation(true)->where("parent_id=0")->order("sort_order")->select();
-//            F('articles', $articles);
-//        }
-//        return F('articles');
-//    }
 }

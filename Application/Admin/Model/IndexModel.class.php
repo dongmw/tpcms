@@ -1,14 +1,12 @@
 <?php
-namespace Admin\Controller;
-class IndexController extends CommonController
-{
-    public function index()
-    {
-        $Info = M('Info');
-        $id = 1;
-        $info = $Info->find($id);
-        $this->assign('info', $info);
+namespace Admin\Model;
 
+use Think\Model;
+
+class IndexModel extends Model
+{
+    public function system($server_info)
+    {
         $total_space = round((@disk_total_space(".") / (1024 * 1024)));
         $free_space = round((@disk_free_space(".") / (1024 * 1024)));
         $already_used = round($total_space-$free_space);
@@ -28,9 +26,12 @@ class IndexController extends CommonController
             'already_used_percent' => $already_used_percent,
             'core' => THINK_VERSION,
         );
-        $this->assign('server_info', $server_info);
-        //dump($server_info);
-        $this->display();
 
+
+        return ($server_info);
+
+        //$this->assign('server_info', $server_info);
     }
+
+
 }

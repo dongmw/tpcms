@@ -16,7 +16,7 @@
                             <div class="panel-heading">文章列表</div>
 
                             <div class="panel-body">
-                                <form action="" method="post" id="form">
+                                <form action="{{:U('page')}}" method="post" id="form">
                                     <table class="table">
 
                                         <thead>
@@ -32,10 +32,11 @@
                                         <tbody>
                                         <volist name="articles" id="a">
                                             <tr data-id="{{$a.id}}">
-                                                <td><input type="checkbox" class="check_destroy" name="destroy_checked[]" value="{{$a.id}}"></td>
+                                                <td><input type="checkbox" class="check_destroy"
+                                                           name="destroy_checked[]" value="{{$a.id}}"></td>
                                                 <td class="title">{{$a.title}}</td>
                                                 <td class="category">
-                                                    <a href="" >{{$a.category.name}}</a>
+                                                    <a href="">{{$a.category.name}}</a>
                                                 </td>
                                                 <td>
                                                     <input type="hidden" value="{{$a.id}}" name="id">
@@ -44,7 +45,7 @@
                                                     {{$a.time|date="Y-m-d",###}}
                                                 </td>
                                                 <td>
-                                                    <a href="{{:U('edit',array('id'=>$a['id']))}}"  class="edit">
+                                                    <a href="{{:U('edit',array('id'=>$a['id']))}}" class="edit">
                                                         <span class="glyphicon glyphicon-pencil"></span>
                                                     </a>
                                                     <a data-toggle="modal" class="destroy" data-target="#destory_link">
@@ -55,12 +56,19 @@
                                         </volist>
                                         </tbody>
                                     </table>
+                                    <nav>
+                                        <ul class="pagination">
+                                            <li>
+                                                {{$page}}
+                                            </li>
+                                        </ul>
+                                    </nav>
                                 </form>
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-2">
 
+                    <div class="col-md-2">
                         <div class="list-group">
                             <a href="{{:U('create')}}" class="list-group-item list-group-item-success">
                                 <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> 新增 (add)
@@ -218,7 +226,7 @@
                     alert('至少选中一项');
                     return false;
                 }
-                $("#form").attr("action","{{:U('destroy_checked')}}").submit();
+                $("#form").attr("action", "{{:U('destroy_checked')}}").submit();
             })
 
             //排序
