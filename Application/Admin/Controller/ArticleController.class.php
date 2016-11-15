@@ -24,6 +24,7 @@ class ArticleController extends CommonController
 //        exit();
         // 进行分页数据查询 注意limit方法的参数要使用Page类的属性
         $articles = $Article->relation(true)->where('status=1')->order('id')->limit($Page->firstRow.','.$Page->listRows)->select();
+        dump($articles);
         $this->assign('articles',$articles);// 赋值数据集
         $this->assign('page',$show);// 赋值分页输出
         $this->display(); // 输出模板

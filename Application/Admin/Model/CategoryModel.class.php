@@ -12,6 +12,7 @@ class CategoryModel extends RelationModel
 
         ),
     );
+
     function all()
     {
         if (!F('categories')){
